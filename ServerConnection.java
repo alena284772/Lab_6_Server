@@ -22,7 +22,21 @@ public class ServerConnection {
             public void work() {
                 System.out.println("Enter port(The client will come to port 7415):");
                 Scanner scanner=new Scanner(System.in);
-                Integer port = port_check(scanner.nextLine(), scanner);
+                int port = -1;
+                while (port == -1){
+                    try{
+                        int a = Integer.valueOf(scanner.nextLine().trim());
+                        if (a<0 || a > 65535){
+                            logger.info("Wrong port was entered. Port should be a number from 0 to 65535");
+                        }else{
+                            port = a;
+                            logger.info("Port is now: "+port);
+                        }
+                    }catch (NumberFormatException e){
+                        logger.info("Entered value is not a number");
+                    }
+
+                }
                 try {
                     ServerSocket ss = new ServerSocket(port);
                     logger.info("ServerSocket awaiting connections...");
